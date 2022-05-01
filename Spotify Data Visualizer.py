@@ -17,3 +17,12 @@ print (songHistory)
 print ('Total songs listened to: ', len(songHistory))
 print ('Total unique songs listened to: ', len(uniqueSongs))
 
+
+for song in uniqueSongs:
+    count = 0
+
+    for countSong in songHistory:
+        if(song == countSong):
+            count = count + 1
+
+    print('Song Title: ', song, ' Played: ', count)
