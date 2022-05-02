@@ -23,22 +23,22 @@ for song in data:
         songHistory[song['trackName']] = 1
 
     
-print (songHistory)
+#print (songHistory)
 print ('Total unique songs listened to: ', len(songHistory))
 
 plt.figure()
 
-sortListenHistory = {}
+sortSongHistory = {}
 sortByMostPlayed = sorted(songHistory, key=songHistory.get, reverse=True) 
 
 for w in sortByMostPlayed:
-    sortListenHistory[w] = songHistory[w]
+    sortSongHistory[w] = songHistory[w]
 
-print (sortListenHistory)
+print (sortSongHistory)
 
 #For each song ever played
-for song in sortListenHistory:
+for song in sortSongHistory:
     #print(song)
-    plt.bar(song, sortListenHistory.get(song) )
+    plt.bar(song, sortSongHistory.get(song) )
 
 plt.show()
