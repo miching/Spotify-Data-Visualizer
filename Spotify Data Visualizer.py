@@ -1,4 +1,5 @@
 #import matplotlib as plt
+from re import T
 import matplotlib.pyplot as plt
 import json
 from collections import Counter
@@ -6,31 +7,38 @@ from collections import Counter
 
 f = open('StreamingHistory0.json')
 data = json.load(f)
-songHistory = list()
+songHistory = dict()
 
 #Get each music stream
 for song in data:
-    #print(song['trackName'])
-    songHistory.append(song['trackName'])
 
-uniqueSongs = set(songHistory)
+    #If song already added to songHistory Dictionary, update times played
+    if(song['trackName'] in songHistory):
+        timesPlayed = songHistory[song['trackName']]
+        timesPlayed = timesPlayed + 1
+        songHistory[song['trackName']] = timesPlayed
+
+    #Song doesn't exist in songHistory dictionary, initialize
+    else:
+        songHistory[song['trackName']] = 1
+
+    
 print (songHistory)
-print ('Total songs listened to: ', len(songHistory))
-print ('Total unique songs listened to: ', len(uniqueSongs))
+print ('Total unique songs listened to: ', len(songHistory))
 
 plt.figure()
 
-#For each unique song
-for song in uniqueSongs:
-    count = 0
+sortListenHistory = {}
+sortByMostPlayed = sorted(songHistory, key=songHistory.get, reverse=True) 
 
-    #For each song ever played
-    for countSong in songHistory:
-        if(song == countSong):
-            count = count + 1
+for w in sortByMostPlayed:
+    sortListenHistory[w] = songHistory[w]
 
-    print('Song Title: ', song, ' Played: ', count)
+print (sortListenHistory)
 
-    plt.bar(song, count)
+#For each song ever played
+for song in sortListenHistory:
+    #print(song)
+    plt.bar(song, sortListenHistory.get(song) )
 
 plt.show()
