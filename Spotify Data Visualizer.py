@@ -1,4 +1,5 @@
 #import matplotlib as plt
+from distutils import sysconfig
 from re import T
 import matplotlib.pyplot as plt
 import json
@@ -37,8 +38,14 @@ for w in sortByMostPlayed:
 print (sortSongHistory)
 
 #For each song ever played
-for song in sortSongHistory:
+#for song in sortSongHistory:
     #print(song)
-    plt.bar(song, sortSongHistory.get(song) )
+ #   plt.bar(song, sortSongHistory.get(song) )
+
+it = iter(sortSongHistory)
+for song in range(10):
+    songTitle = next(it)
+    plt.bar(songTitle, sortSongHistory.get(songTitle) )
+    next(it)
 
 plt.show()
