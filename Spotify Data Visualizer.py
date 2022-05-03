@@ -42,10 +42,21 @@ print (sortSongHistory)
     #print(song)
  #   plt.bar(song, sortSongHistory.get(song) )
 
+
+#Top 10 most listened songs, using iterator
 it = iter(sortSongHistory)
 for song in range(10):
+
+    #Get song title
     songTitle = next(it)
+
+    #X-cords is song title, Y-cords is the value/number of times played
     plt.bar(songTitle, sortSongHistory.get(songTitle) )
+
+    #Show number of times played on graph
+    plt.text(song, sortSongHistory.get(songTitle), sortSongHistory.get(songTitle) ,color = 'blue', fontweight = 'bold')
+
+    #Iterate to next song
     next(it)
 
 plt.show()
