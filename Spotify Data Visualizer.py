@@ -63,12 +63,18 @@ def sortByMostPlayed(songHistory):
     return sortSongHistory
 
 
-def allSongsListened():
-    print()
+#Plot all songs
+def allSongsListened(songHistory):
+
+    sortSongHistory = sortByMostPlayed(songHistory)
+    plt.figure()
+
     #For each song ever played
-    #for song in sortSongHistory:
-        #print(song)
-    #   plt.bar(song, sortSongHistory.get(song) )
+    for song in sortSongHistory:
+        print(song)
+        plt.bar(song, sortSongHistory.get(song) )
+
+    plt.show()
 
 
 
@@ -92,9 +98,7 @@ def topSongsListened(songHistory, number):
         #Show number of times played on graph
         plt.text(song, sortSongHistory.get(songTitle), sortSongHistory.get(songTitle) ,color = 'blue', fontweight = 'bold')
 
-        #Iterate to next song
-        next(it)
-
+    #Display bar graph
     plt.show()
 
 
