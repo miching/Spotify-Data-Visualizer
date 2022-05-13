@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 import json
 from collections import Counter
 
-#songHistory is a dictonary of song(key)-timesPlayed(value)
-def readSongHistory(songHistory):
+#Read all JSON files and transform into dict 
+def readSongHistory():
 
     readAllFiles = True
     amountOfFiles = 0
@@ -26,18 +26,14 @@ def readSongHistory(songHistory):
             readAllFiles = False
             print("Cannot read file")
 
-        #Get each music stream
+
+        #Print all music streams
         for song in data:
 
-            #If song already added to songHistory Dictionary, update times played
-            if(song['trackName'] in songHistory):
-                timesPlayed = songHistory[song['trackName']]
-                timesPlayed = timesPlayed + 1
-                songHistory[song['trackName']] = timesPlayed
+            print (song)
 
-            #Song doesn't exist in songHistory dictionary, initialize
-            else:
-                songHistory[song['trackName']] = 1
+        return data
+            
 
 
 
@@ -98,6 +94,16 @@ def topSongsListened(songHistory, number):
     #Display bar graph
     plt.show()
 
+#Plot the songs listened to by artist
+def songsByArtist(songHistory, artistName):
+
+    it = iter(songHistory)
+    for song in songHistory:
+        print()
+        
+
+
+
 def menu():
     print("1) Top X songs listened to")
     print("2) Top songs listened to by an artist")
@@ -107,10 +113,9 @@ def menu():
 
 def main():
     print("hello world")
-    songHistory = dict()
 
     #Read all songs from files
-    readSongHistory(songHistory)
+    songHistory = readSongHistory()
 
     #print (songHistory)
     print ('Total unique songs listened to: ', len(songHistory))
@@ -125,6 +130,10 @@ def main():
         if(userChoice == 1):
             topXSongs = int(input("Range of top songs?") )
             topSongsListened(songHistory, topXSongs)
+
+        #Print top songs listened by artist
+        if(userChoice == 2):
+            artistSongs = int(input("Name of artist?") )
 
         if(userChoice == 4):
             break
