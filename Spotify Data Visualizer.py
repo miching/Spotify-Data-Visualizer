@@ -28,26 +28,41 @@ def readSongHistory():
 
 
         #Print all music streams
-        for song in data:
+        #for song in data:
 
-            print (song)
+        #    print (song)
+        
 
         return data
             
 
 
-
 #Sort songHistory dict by most played
 def sortByMostPlayed(songHistory):
-    sortSongHistory = {}
-    sortByMostPlayed = sorted(songHistory, key=songHistory.get, reverse=True) 
 
-    for w in sortByMostPlayed:
-        sortSongHistory[w] = songHistory[w]
+    songTimesPlayed = {}
 
-    print (sortSongHistory)
+    #Print all music streams
+    for song in songHistory:
 
-    return sortSongHistory
+        print ("myloop", song['trackName'])
+        #print ("myloop",song)
+
+        #If song already added to songTimesPlayed Dictionary, update times played
+        if(song['trackName'] in songTimesPlayed):
+            timesPlayed = songTimesPlayed[song['trackName']]
+            timesPlayed = timesPlayed + 1
+            songTimesPlayed[song['trackName']] = timesPlayed
+            
+
+        #Song doesn't exist in songTimesPlayed dictionary, initialize
+        else:
+            songTimesPlayed[song['trackName']] = 1
+        
+
+    songTimesPlayed = sorted(songTimesPlayed, key=songTimesPlayed.get, reverse=True) 
+
+    return songTimesPlayed
 
 
 #Plot all songs
@@ -129,7 +144,8 @@ def main():
         #Print top X songs
         if(userChoice == 1):
             topXSongs = int(input("Range of top songs?") )
-            topSongsListened(songHistory, topXSongs)
+            temp = sortByMostPlayed(songHistory)
+            topSongsListened(temp, topXSongs)
 
         #Print top songs listened by artist
         if(userChoice == 2):
