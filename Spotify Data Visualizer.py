@@ -45,19 +45,22 @@ def sortByMostPlayed(songHistory):
     #Print all music streams
     for song in songHistory:
 
-        print ("myloop", song['trackName'])
-        #print ("myloop",song)
+        #print ("myloop", song['trackName'])
+        print ("myloop",song)
+
+        #print(song.keys())
+        songTitle = song.get("trackName")
 
         #If song already added to songTimesPlayed Dictionary, update times played
-        if(song['trackName'] in songTimesPlayed):
-            timesPlayed = songTimesPlayed[song['trackName']]
+        if(songTitle in songTimesPlayed):
+            timesPlayed = songTimesPlayed[songTitle]
             timesPlayed = timesPlayed + 1
-            songTimesPlayed[song['trackName']] = timesPlayed
+            songTimesPlayed[songTitle] = timesPlayed
             
 
         #Song doesn't exist in songTimesPlayed dictionary, initialize
         else:
-            songTimesPlayed[song['trackName']] = 1
+            songTimesPlayed[songTitle] = 1
         
 
     songTimesPlayed = sorted(songTimesPlayed, key=songTimesPlayed.get, reverse=True) 
