@@ -60,9 +60,7 @@ def sortByMostPlayed(songHistory):
         #print ("myloop",song)
 
         #print(song.keys())
-        #songTitle = song.get("trackName")
-        songTitle = song["trackName"]
-        
+        songTitle = song.get("trackName")
 
         #If song already added to songTimesPlayed Dictionary, update times played
         if(songTitle in songTimesPlayed):
