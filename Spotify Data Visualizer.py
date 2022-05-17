@@ -1,29 +1,21 @@
 #import matplotlib as plt
-from ctypes import alignment
 from distutils import sysconfig
 from re import T
-from xmlrpc.client import boolean
-from matplotlib import ticker
 import matplotlib.pyplot as plt
 import json
 from collections import Counter
 
-#Read all JSON files and transform into dict 
-def readSongHistory():
+#songHistory is a dictonary of song(key)-timesPlayed(value), amountOfFile is user input int
+def readSongHistory(songHistory, amountOfFiles):
 
-    readAllFiles = True
-    amountOfFiles = 0
-
-    while (readAllFiles):
+    #Read X number of files
+    for i in range(amountOfFiles):
         try:
-            fileName = ('StreamingHistory' + str(amountOfFiles) + '.json')
-            amountOfFiles = amountOfFiles + 1
+            fileName = ('StreamingHistory' + str(i) + '.json')
             #print (fileName)
             f = open(fileName)
             data = json.load(f)
-        #Cannot read file
         except:
-            readAllFiles = False
             print("Cannot read file")
 
 
@@ -35,6 +27,23 @@ def readSongHistory():
 
         return data
             
+
+
+def main():
+     print("hello world")
+     songHistory = dict()
+
+     numOfFiles = int(input("How many files to read?") )
+
+    #Read all songs from files
+     readSongHistory(songHistory, numOfFiles)
+
+     #print (songHistory)
+     print ('Total unique songs listened to: ', len(songHistory))
+
+     topXSongs = int(input("Range of top songs?") )
+     topSongsListened(songHistory, topXSongs)
+
 
 
 #Sort songHistory dict by most played
@@ -97,67 +106,24 @@ def topSongsListened(songHistory, number):
         #Show number of times played on graph
         plt.text(song, sortSongHistory.get(songTitle), sortSongHistory.get(songTitle) ,color = 'blue', fontweight = 'bold')
 
-        plt.title("Top " + str(number) + " songs listened to")
-        plt.xlabel("Song(s)")
-        plt.ylabel("Times played")
-        #plt.xaxis.set_major_formatter(ticker.NullFormatter())
-        plt.xticks([])
-
     #Display bar graph
     plt.show()
 
-#Plot the songs listened to by artist
-def songsByArtist(songHistory, artistName):
-
-    it = iter(songHistory)
-    for song in songHistory:
-        print()
-        
-
-
-
-def menu():
-    print("1) Top X songs listened to")
-    print("2) Top songs listened to by an artist")
-    print("3) Listening activity by month")
-    print("4) Exit.")
 
 
 def main():
-    print("hello world")
+     print("hello world")
+     songHistory = dict()
+
+     numOfFiles = int(input("How many files to read?") )
 
     #Read all songs from files
-    songHistory = readSongHistory()
+     readSongHistory(songHistory, numOfFiles)
 
-    #print (songHistory)
-    print ('Total unique songs listened to: ', len(songHistory))
+     #print (songHistory)
+     print ('Total unique songs listened to: ', len(songHistory))
 
-    #menu()
-    userChoice = int(input(menu()))
+     topXSongs = int(input("Range of top songs?") )
+     topSongsListened(songHistory, topXSongs)
 
-    while(userChoice != 4):
-        #print("entered here")
-
-        #Print top X songs
-        if(userChoice == 1):
-            topXSongs = int(input("Range of top songs?") )
-            temp = sortByMostPlayed(songHistory)
-            topSongsListened(temp, topXSongs)
-
-        #Print top songs listened by artist
-        if(userChoice == 2):
-            artistSongs = int(input("Name of artist?") )
-
-        if(userChoice == 4):
-            break
-
-        else:
-            print("Invalid input, Try again.")
-
-        userChoice = input(menu())
-
-
-    print("Program ended.")
-
-     
 main()
