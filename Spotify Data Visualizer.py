@@ -97,7 +97,6 @@ def topSongsListened(songHistory, number):
         #Show number of times played on graph
         plt.text(song, sortSongHistory.get(songTitle), sortSongHistory.get(songTitle) ,color = 'blue', fontweight = 'bold')
 
-<<<<<<< HEAD
         plt.title("Top " + str(number) + " songs listened to")
         plt.xlabel("Song(s)")
         plt.ylabel("Times played")
@@ -105,11 +104,6 @@ def topSongsListened(songHistory, number):
         plt.xticks([])
 
     #Display bar graph
-=======
-        #Iterate to next song
-        next(it)
-
->>>>>>> parent of 0d98944 (Fixed top songs bug)
     plt.show()
 
 #Plot the songs listened to by artist
