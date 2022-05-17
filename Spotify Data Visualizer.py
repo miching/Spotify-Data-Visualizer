@@ -41,23 +41,12 @@ def readSongHistory():
 def sortByMostPlayed(songHistory):
 
     songTimesPlayed = {}
-    listOfSongTitles = [song['trackName'] for song in songHistory]
-    print ("vals: ", listOfSongTitles)
-
-    uniqueSongTitles = set(listOfSongTitles)
-
-    print("Total Unique songs: ",len(uniqueSongTitles))
-
 
     #Print all music streams
     for song in songHistory:
 
-        #values_of_key = [song['trackName'] for song in songHistory]
-
-        #print ("vals: ", values_of_key)
-
         #print ("myloop", song['trackName'])
-        #print ("myloop",song)
+        print ("myloop",song)
 
         #print(song.keys())
         songTitle = song.get("trackName")
