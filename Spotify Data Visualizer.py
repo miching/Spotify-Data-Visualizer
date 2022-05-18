@@ -48,6 +48,9 @@ def sortByMostPlayed(songHistory):
 
     print("Total Unique songs: ",len(uniqueSongTitles))
 
+    #for song in listOfSongTitles:
+
+
 
     #Print all music streams
     for song in songHistory:
@@ -150,7 +153,9 @@ def main():
     songHistory = readSongHistory()
 
     #print (songHistory)
-    print ('Total unique songs listened to: ', len(songHistory))
+    #print ('Total songs: ', len(songHistory))
+    uniqueSongs = set(songHistory['trackName'])
+    print ('Total songs: ', len(uniqueSongs))
 
     menu()
     userChoice = int(input())
@@ -168,6 +173,10 @@ def main():
         #Print top songs listened by artist
         if(userChoice == 2):
             artistSongs = int(input("Name of artist?") )
+
+        #Listening activity by month
+        if(userChoice == 3):
+            print()
 
         if(userChoice == 4):
             break
