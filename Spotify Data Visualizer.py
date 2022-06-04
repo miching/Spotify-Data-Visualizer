@@ -109,16 +109,18 @@ def topSongsListened(songHistory, number):
 
     #Top number most listened songs, using iterator
     it = iter(songHistory)
+    count = -1
     for song in range(number):
 
+        count = count + 1
         #Get song title
         songTitle = next(it)
 
         #X-cords is song title, Y-cords is the value/number of times played
-        plt.bar(songTitle, songHistory.get(songTitle) )
+        plt.bar(songTitle, songHistory[count] )
 
         #Show number of times played on graph
-        plt.text(song, songHistory.get(songTitle), songHistory.get(songTitle) ,color = 'blue', fontweight = 'bold')
+        plt.text(song, songHistory[count], songHistory[count] ,color = 'blue', fontweight = 'bold')
 
         plt.title("Top " + str(number) + " songs listened to")
         plt.xlabel("Song(s)")
@@ -154,8 +156,8 @@ def main():
 
     #print (songHistory)
     #print ('Total songs: ', len(songHistory))
-    uniqueSongs = set(songHistory['trackName'])
-    print ('Total songs: ', len(uniqueSongs))
+    #uniqueSongs = set(songHistory)
+    #print ('Total songs: ', len(uniqueSongs))
 
     menu()
     userChoice = int(input())
@@ -168,6 +170,7 @@ def main():
         if(userChoice == 1):
             topXSongs = int(input("Range of top songs?") )
             temp = sortByMostPlayed(songHistory)
+            print (temp[0])
             topSongsListened(temp, topXSongs)
 
         #Print top songs listened by artist
