@@ -33,56 +33,9 @@ def readSongHistory():
         #    print (song)
         
 
+        
         return data
             
-
-
-#Sort songHistory dict by most played
-def sortByMostPlayed(songHistory):
-
-    songTimesPlayed = {}
-    listOfSongTitles = [song['trackName'] for song in songHistory]
-    print ("vals: ", listOfSongTitles)
-
-    uniqueSongTitles = set(listOfSongTitles)
-
-    print("Total Unique songs: ",len(uniqueSongTitles))
-
-    #for song in listOfSongTitles:
-
-
-
-    #Print all music streams
-    for song in songHistory:
-
-        #values_of_key = [song['trackName'] for song in songHistory]
-
-        #print ("vals: ", values_of_key)
-
-        #print ("myloop", song['trackName'])
-        #print ("myloop",song)
-        #print ("myloop",song)
-
-        #print(song.keys())
-        #songTitle = song.get("trackName")
-        songTitle = song["trackName"]
-        
-
-        #If song already added to songTimesPlayed Dictionary, update times played
-        if(songTitle in songTimesPlayed):
-            timesPlayed = songTimesPlayed[songTitle]
-            timesPlayed = timesPlayed + 1
-            songTimesPlayed[songTitle] = timesPlayed
-            
-
-        #Song doesn't exist in songTimesPlayed dictionary, initialize
-        else:
-            songTimesPlayed[songTitle] = 1
-        
-
-    songTimesPlayed = sorted(songTimesPlayed, key=songTimesPlayed.get, reverse=True) 
-
-    return songTimesPlayed
 
 
 #Plot all songs
@@ -100,12 +53,59 @@ def allSongsListened(songHistory):
 
 
 
+#Get top N (number) songs listened to
+def topSongsListenedTo(songHistory, number):
+
+    songTimesPlayed = {}
+    listOfSongTitles = [song['trackName'] for song in songHistory]
+    print ("vals: ", listOfSongTitles)
+
+    uniqueSongTitles = set(listOfSongTitles)
+
+    for songTitles in uniqueSongTitles:
+        songTimesPlayed[songTitles] =  0
+
+    print("Total Unique songs: ",len(uniqueSongTitles))
+
+
+    #For each unique song title
+    for uniqueSong in uniqueSongTitles:
+
+        #For all songs listened to
+        for song in songHistory:
+            songTitle = song["trackName"]
+           
+           #Song has been listened to
+            if(songTitle == uniqueSong):
+                songTimesPlayed[songTitle] = songTimesPlayed[songTitle] + 1
+
+    print(songTimesPlayed)
+
+    topNSongsList = [{'',0}] * number
+
+    for songTitle in uniqueSongTitles:
+        
+        for i in range(number):
+            if (topNSongsList[i][1] < songTimesPlayed.get(songTitle)):
+                topNSongsList[i][1] = {songTitle, songTimesPlayed.get(songTitle)}
+
+
+
+    print(topNSongsList)
+
+    #plotTopSongsListened(topNSongsList)
+
+
+
+
 #Plot the top 'number' of songs listened to
-#songHistory is dict of all songs, number is user input of desired X top songs
-def topSongsListened(songHistory, number):
-    #sortSongHistory = sortByMostPlayed(songHistory)
+#topNSongs is a songHistory is dict of all songs, number is user input of desired X top songs
+def plotTopSongsListened(topNSongs):
 
     plt.figure()
+
+    #for i in range(topNSongsList):
+     #   topNSongs[i] = 
 
     #Top number most listened songs, using iterator
     it = iter(songHistory)
@@ -161,7 +161,7 @@ def main():
 
     menu()
     userChoice = int(input())
-    #userChoice = int(input(menu()))
+    
 
     while(userChoice != 4):
         #print("entered here")
@@ -169,19 +169,24 @@ def main():
         #Print top X songs
         if(userChoice == 1):
             topXSongs = int(input("Range of top songs?") )
-            temp = sortByMostPlayed(songHistory)
-            print (temp[0])
-            topSongsListened(temp, topXSongs)
+            topSongsListenedTo(songHistory, topXSongs)
+
 
         #Print top songs listened by artist
         if(userChoice == 2):
-            artistSongs = int(input("Name of artist?") )
+            artistName = int(input("Name of artist?") )
+            songsByArtist(songHistory, artistName)
+            
 
         #Listening activity by month
         if(userChoice == 3):
             print()
 
+        
         if(userChoice == 4):
+            print()
+
+        if(userChoice == 5):
             break
 
         else:
