@@ -33,18 +33,15 @@ def readSongHistory():
             
 
 
-#Plot all songs
+# Plot all songs
 def allSongsListened(songHistory):
 
-    sortSongHistory = sortByMostPlayed(songHistory)
-    plt.figure()
+    songTimesPlayed = countTimesPlayed(songHistory)
 
-    #For each song ever played
-    for song in sortSongHistory:
-        print(song)
-        plt.bar(song, sortSongHistory.get(song) )
+    # Sort by most played to least played songs
+    songTimesPlayed = sorted(songTimesPlayed.items(), key=lambda x: x[1], reverse=True)
 
-    plt.show()
+    plotTopSongsListened(songTimesPlayed)
 
 
 
@@ -118,7 +115,7 @@ def plotTopSongsListened(topSongsList):
         
     # x-Axis Labels    
     plt.xticks(xAxisTitles)
-    
+
     #Display bar graph
     plt.show()
 
@@ -127,10 +124,13 @@ def plotTopSongsListened(topSongsList):
 
 #Plot the songs listened to by artist
 def songsByArtist(songHistory, artistName):
+    songsByArtistList = []
 
-    it = iter(songHistory)
-    for song in songHistory:
-        print()
+    for i in range(len(songHistory)):
+        if(songHistory[i]['artistName'] == artistName):
+            songsByArtistList.append(songHistory[i])
+
+    print(songsByArtistList)
         
 
 
@@ -140,6 +140,7 @@ def menu():
     print("2) Top songs listened to by an artist")
     print("3) Listening activity by month")
     print("4) Exit.")
+
 
 
 def testmain():
@@ -195,7 +196,9 @@ def testmain():
 def main():
     songHistory = readSongHistory()
     #countTimesPlayed(songHistory)
-    topSongsListenedTo(songHistory, 5)
+    #topSongsListenedTo(songHistory, 5)
+    #allSongsListened(songHistory)
+    songsByArtist(songHistory, 'Post Malone')
 
 if __name__ == '__main__':    
     main()
