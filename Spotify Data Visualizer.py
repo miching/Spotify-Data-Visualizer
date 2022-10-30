@@ -1,6 +1,5 @@
 #import matplotlib as plt
 from ctypes import alignment
-from distutils import sysconfig
 from re import T
 from xmlrpc.client import boolean
 from matplotlib import ticker
@@ -10,10 +9,9 @@ from collections import Counter
 
 #Read all JSON files and transform into dict 
 def readSongHistory():
-
     readAllFiles = True
     amountOfFiles = 0
-
+    data = {}
     while (readAllFiles):
         try:
             fileName = ('StreamingHistory' + str(amountOfFiles) + '.json')
@@ -24,16 +22,13 @@ def readSongHistory():
         #Cannot read file
         except:
             readAllFiles = False
-            print("Cannot read file")
-
-
+            #print("Cannot read file")
         #Print all music streams
         #for song in data:
-
         #    print (song)
         
-
-        
+        #print(data)
+        #print(data[len(data)-1])
         return data
             
 
@@ -53,83 +48,82 @@ def allSongsListened(songHistory):
 
 
 
-#Get top N (number) songs listened to
-def topSongsListenedTo(songHistory, number):
+
+# Count how much times a song has been played
+# Returns a dict with key-value of {songTitle: timesPlayed}
+def countTimesPlayed(songHistory):
 
     songTimesPlayed = {}
-    listOfSongTitles = [song['trackName'] for song in songHistory]
-    print ("vals: ", listOfSongTitles)
-
-    uniqueSongTitles = set(listOfSongTitles)
+    allSongTitles = [song['trackName'] for song in songHistory]
+    uniqueSongTitles = set(allSongTitles)
 
     for songTitles in uniqueSongTitles:
-        songTimesPlayed[songTitles] =  0
-
-    print("Total Unique songs: ",len(uniqueSongTitles))
+        songTimesPlayed[songTitles] = allSongTitles.count(songTitles)
 
 
-    #For each unique song title
-    for uniqueSong in uniqueSongTitles:
+    return (songTimesPlayed)
 
-        #For all songs listened to
-        for song in songHistory:
-            songTitle = song["trackName"]
-           
-           #Song has been listened to
-            if(songTitle == uniqueSong):
-                songTimesPlayed[songTitle] = songTimesPlayed[songTitle] + 1
+    
 
-    print(songTimesPlayed)
+# Get top N (number) songs listened to
+def topSongsListenedTo(songHistory, number):
 
-    topNSongsList = [{'',0}] * number
+    # List to hold top N songs
+    topSongsList = []
 
-    for songTitle in uniqueSongTitles:
-        
-        for i in range(number):
-            if (topNSongsList[i][1] < songTimesPlayed.get(songTitle)):
-                topNSongsList[i][1] = {songTitle, songTimesPlayed.get(songTitle)}
+    # Dict holding {songTitle: timesPlayed}
+    songTimesPlayed = countTimesPlayed(songHistory)
+
+    # Sort by most played to least played songs
+    songTimesPlayed = sorted(songTimesPlayed.items(), key=lambda x: x[1], reverse=True)
 
 
+    # For N top songs, add to list
+    for i in range(number):
+        topSongsList.append(songTimesPlayed[i])
 
-    print(topNSongsList)
 
-    #plotTopSongsListened(topNSongsList)
+    #print(songTimesPlayed)
+    #print(topSongsList)
+
+    plotTopSongsListened(topSongsList)
 
 
 
-
-#Plot the top 'number' of songs listened to
-#topNSongs is a songHistory is dict of all songs, number is user input of desired X top songs
-def plotTopSongsListened(topNSongs):
+#Plot the top N of songs listened to
+def plotTopSongsListened(topSongsList):
 
     plt.figure()
+    plt.title("Top " + str(len(topSongsList)) + " songs listened to")
+    plt.xlabel("Song(s)")
+    plt.ylabel("Times played")
 
-    #for i in range(topNSongsList):
-     #   topNSongs[i] = 
+    # Hold song titles for x-Axis
+    xAxisTitles = []
 
-    #Top number most listened songs, using iterator
-    it = iter(songHistory)
-    count = -1
-    for song in range(number):
+    # For each top song, plot with bar graph
+    for i in range(len(topSongsList)):
+        song = topSongsList[i]
+        songTitle = song[0]
+        songCount = song[1]
 
-        count = count + 1
-        #Get song title
-        songTitle = next(it)
+        xAxisTitles.append(songTitle)
 
         #X-cords is song title, Y-cords is the value/number of times played
-        plt.bar(songTitle, songHistory[count] )
+        plt.bar(songTitle, songCount)
 
         #Show number of times played on graph
-        plt.text(song, songHistory[count], songHistory[count] ,color = 'blue', fontweight = 'bold')
+        plt.text(songTitle, songCount, songCount ,color = 'blue', fontweight = 'bold')
 
-        plt.title("Top " + str(number) + " songs listened to")
-        plt.xlabel("Song(s)")
-        plt.ylabel("Times played")
-        #plt.xaxis.set_major_formatter(ticker.NullFormatter())
-        plt.xticks([])
-
+        
+    # x-Axis Labels    
+    plt.xticks(xAxisTitles)
+    
     #Display bar graph
     plt.show()
+
+
+
 
 #Plot the songs listened to by artist
 def songsByArtist(songHistory, artistName):
@@ -148,8 +142,8 @@ def menu():
     print("4) Exit.")
 
 
-def main():
-    print("hello world")
+def testmain():
+    print("Hello world")
 
     #Read all songs from files
     songHistory = readSongHistory()
@@ -197,5 +191,11 @@ def main():
 
     print("Program ended.")
 
-     
-main()
+
+def main():
+    songHistory = readSongHistory()
+    #countTimesPlayed(songHistory)
+    topSongsListenedTo(songHistory, 5)
+
+if __name__ == '__main__':    
+    main()
