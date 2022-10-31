@@ -122,16 +122,27 @@ def plotTopSongsListened(topSongsList):
 
 
 
-#Plot the songs listened to by artist
+# Get songs created by artist
 def songsByArtist(songHistory, artistName):
+
+    # List of songs created by artist
     songsByArtistList = []
 
+    # For all songs listned to
     for i in range(len(songHistory)):
         if(songHistory[i]['artistName'] == artistName):
             songsByArtistList.append(songHistory[i])
 
-    print(songsByArtistList)
+
+    #print(songsByArtistList)
+    plotSongsByArtist(songsByArtistList)
         
+
+
+# Plot songs created by artist
+def plotSongsByArtist(artistSongList):
+    pass
+
 
 
 
