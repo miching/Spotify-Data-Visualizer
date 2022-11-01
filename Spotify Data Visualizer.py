@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import json
 from collections import Counter
 
-#Read all JSON files and transform into dict 
+# Read all JSON files and transform into dict 
 def readSongHistory():
     readAllFiles = True
     amountOfFiles = 0
@@ -59,6 +59,7 @@ def countTimesPlayed(songHistory):
         songTimesPlayed[songTitles] = allSongTitles.count(songTitles)
 
 
+    #print(songTimesPlayed)
     return (songTimesPlayed)
 
     
@@ -72,7 +73,7 @@ def topSongsListenedTo(songHistory, topRange):
     # Dict holding {songTitle: timesPlayed}
     songTimesPlayed = countTimesPlayed(songHistory)
 
-    # Sort by most played to least played songs
+    # Sort by most played to least played songs into a list
     songTimesPlayed = sorted(songTimesPlayed.items(), key=lambda x: x[1], reverse=True)
 
     # Requested range of top songs is out of size
@@ -132,7 +133,7 @@ def songsByArtist(songHistory, artistName):
     # List of dicts that hold songs created by artist
     songsByArtistList = []
 
-    # For all songs listned to
+    # For all songs listned to, find songs by artistName
     for i in range(len(songHistory)):
         if(songHistory[i]['artistName'] == artistName):
             songsByArtistList.append(songHistory[i])
@@ -147,7 +148,7 @@ def songsByArtist(songHistory, artistName):
         # Dict holding {songTitle: timesPlayed}
         songTimesPlayed = countTimesPlayed(songsByArtistList)
 
-        # Sort by most played to least played songs
+        # Sort by most played to least played songs into a list
         songTimesPlayed = sorted(songTimesPlayed.items(), key=lambda x: x[1], reverse=True)
 
         #print(songTimesPlayed)
@@ -181,7 +182,6 @@ def plotSongsByArtist(artistSongList, artistName):
         plt.text(songTitle, songCount, songCount ,color = 'blue', fontweight = 'bold', ha = CENTER)
 
         
-    
     # To prevent clutter, do not plot song titles if more 15
     if (len(artistSongList) > 15):
         plt.xticks([])
@@ -206,6 +206,7 @@ def plotTopArtists(artistsList):
 
 
 
+# Print options for user to choose
 def menu():
     print("1) Top songs listened to")
     print("2) Top songs listened to by an artist")
@@ -266,10 +267,10 @@ def testmain():
 def main():
     songHistory = readSongHistory()
     #countTimesPlayed(songHistory)
-    topSongsListenedTo(songHistory, 5)
+    #topSongsListenedTo(songHistory, 5)
     #allSongsListened(songHistory)
     #songsByArtist(songHistory, 'Post Malone')
-    #songsByArtist(songHistory, 'Taylor Swift')
+    songsByArtist(songHistory, 'Taylor Swift')
     #songsByArtist(songHistory, 'gfdgfd')
     topArtistsListenedTo(songHistory, 5)
 
