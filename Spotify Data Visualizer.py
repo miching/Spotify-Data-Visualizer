@@ -126,7 +126,7 @@ def plotTopSongsListened(topSongsList):
 # Get songs created by artist
 def songsByArtist(songHistory, artistName):
 
-    # List of songs created by artist
+    # List of dicts that hold songs created by artist
     songsByArtistList = []
 
     # For all songs listned to
@@ -135,22 +135,28 @@ def songsByArtist(songHistory, artistName):
             songsByArtistList.append(songHistory[i])
 
 
+    # No songs were played that were created by artistName
+    if(len(songsByArtistList) == 0):
+        print('No songs played by artist ' + artistName)
 
-    # Dict holding {songTitle: timesPlayed}
-    songTimesPlayed = countTimesPlayed(songsByArtistList)
+    else:
 
-    # Sort by most played to least played songs
-    songTimesPlayed = sorted(songTimesPlayed.items(), key=lambda x: x[1], reverse=True)
+        # Dict holding {songTitle: timesPlayed}
+        songTimesPlayed = countTimesPlayed(songsByArtistList)
 
+        # Sort by most played to least played songs
+        songTimesPlayed = sorted(songTimesPlayed.items(), key=lambda x: x[1], reverse=True)
 
-    #print(songTimesPlayed)
-    plotSongsByArtist(songTimesPlayed, artistName)
+        #print(songTimesPlayed)
+        plotSongsByArtist(songTimesPlayed, artistName)
         
 
 
 # Plot songs created by artist
 # artistSongList is a list of tuples in the form (songTitle, timesPlayed)
 def plotSongsByArtist(artistSongList, artistName):
+
+    totalTimesPlayed = 0
 
     plt.figure()
     plt.title("Your most listened songs by artist " + artistName)
@@ -165,6 +171,7 @@ def plotSongsByArtist(artistSongList, artistName):
         song = artistSongList[i]
         songTitle = song[0]
         songCount = song[1]
+        totalTimesPlayed = totalTimesPlayed + songCount
 
         xAxisTitles.append(songTitle)
 
@@ -176,7 +183,9 @@ def plotSongsByArtist(artistSongList, artistName):
 
         
     # x-Axis Labels    
-    plt.xticks(xAxisTitles)
+    #plt.xticks(xAxisTitles)
+
+    print('Total songs played by artist ' + artistName + ': ' + str(totalTimesPlayed) )
 
     #Display bar graph
     plt.show()
@@ -248,6 +257,7 @@ def main():
     #topSongsListenedTo(songHistory, 5)
     #allSongsListened(songHistory)
     songsByArtist(songHistory, 'Post Malone')
+    #songsByArtist(songHistory, 'gfdgfd')
 
 if __name__ == '__main__':    
     main()
