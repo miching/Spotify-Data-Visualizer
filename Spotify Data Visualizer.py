@@ -1,6 +1,7 @@
 #import matplotlib as plt
 from ctypes import alignment
 from re import T
+from tkinter import CENTER
 from xmlrpc.client import boolean
 from matplotlib import ticker
 import matplotlib.pyplot as plt
@@ -101,8 +102,6 @@ def plotTopSongsListened(topSongsList):
     plt.xlabel("Song(s)")
     plt.ylabel("Times played")
 
-    # Hold song titles for x-Axis
-    xAxisTitles = []
 
     # For each top song, plot with bar graph
     for i in range(len(topSongsList)):
@@ -110,17 +109,16 @@ def plotTopSongsListened(topSongsList):
         songTitle = song[0]
         songCount = song[1]
 
-        xAxisTitles.append(songTitle)
-
         #X-cords is song title, Y-cords is the value/number of times played
         plt.bar(songTitle, songCount)
 
         #Show number of times played on graph
-        plt.text(songTitle, songCount, songCount ,color = 'blue', fontweight = 'bold')
+        plt.text(songTitle, songCount, songCount ,color = 'blue', fontweight = 'bold', ha = CENTER)
 
-        
-    # x-Axis Labels    
-    plt.xticks(xAxisTitles)
+    
+    # To prevent clutter, do not plot song titles if more 15
+    if (len(topSongsList) > 15):
+        plt.xticks([])
 
     #Display bar graph
     plt.show()
@@ -165,11 +163,9 @@ def plotSongsByArtist(artistSongList, artistName):
 
     plt.figure()
     plt.title("Your most listened songs by artist " + artistName)
-    plt.xlabel("Song(s)")
+    plt.xlabel("Song Title")
     plt.ylabel("Times played")
 
-    # Hold song titles for x-Axis
-    xAxisTitles = []
 
     # For each top song, plot with bar graph
     for i in range(len(artistSongList)):
@@ -178,17 +174,18 @@ def plotSongsByArtist(artistSongList, artistName):
         songCount = song[1]
         totalTimesPlayed = totalTimesPlayed + songCount
 
-        xAxisTitles.append(songTitle)
-
         #X-cords is song title, Y-cords is the value/number of times played
         plt.bar(songTitle, songCount)
 
         #Show number of times played on graph
-        plt.text(songTitle, songCount, songCount ,color = 'blue', fontweight = 'bold')
+        plt.text(songTitle, songCount, songCount ,color = 'blue', fontweight = 'bold', ha = CENTER)
 
         
-    # x-Axis Labels    
-    #plt.xticks(xAxisTitles)
+    
+    # To prevent clutter, do not plot song titles if more 15
+    if (len(artistSongList) > 15):
+        plt.xticks([])
+
 
     print('Total songs played by artist ' + artistName + ': ' + str(totalTimesPlayed) )
 
@@ -269,9 +266,10 @@ def testmain():
 def main():
     songHistory = readSongHistory()
     #countTimesPlayed(songHistory)
-    #topSongsListenedTo(songHistory, 5)
+    topSongsListenedTo(songHistory, 5)
     #allSongsListened(songHistory)
     #songsByArtist(songHistory, 'Post Malone')
+    #songsByArtist(songHistory, 'Taylor Swift')
     #songsByArtist(songHistory, 'gfdgfd')
     topArtistsListenedTo(songHistory, 5)
 
