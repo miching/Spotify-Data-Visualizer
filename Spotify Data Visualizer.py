@@ -62,8 +62,8 @@ def countTimesPlayed(songHistory):
 
     
 
-# Get top N (number) songs listened to
-def topSongsListenedTo(songHistory, number):
+# Get top range of songs listened to
+def topSongsListenedTo(songHistory, topRange):
 
     # List to hold top N songs
     topSongsList = []
@@ -74,16 +74,21 @@ def topSongsListenedTo(songHistory, number):
     # Sort by most played to least played songs
     songTimesPlayed = sorted(songTimesPlayed.items(), key=lambda x: x[1], reverse=True)
 
+    # Requested range of top songs is out of size
+    if(topRange > len(songTimesPlayed)):
+        print('Range is beyond total songs listened')
+    
+    else:
 
-    # For N top songs, add to list
-    for i in range(number):
-        topSongsList.append(songTimesPlayed[i])
+        # For the range of top songs, add to list
+        for i in range(topRange):
+            topSongsList.append(songTimesPlayed[i])
 
 
-    #print(songTimesPlayed)
-    #print(topSongsList)
+        #print(songTimesPlayed)
+        #print(topSongsList)
 
-    plotTopSongsListened(topSongsList)
+        plotTopSongsListened(topSongsList)
 
 
 
@@ -192,11 +197,22 @@ def plotSongsByArtist(artistSongList, artistName):
 
 
 
+# Get top range of artists listened to
+def topArtistsListenedTo(songHistory, topRange):
+    print()
+
+
+
+# Plot the top artists listened to
+def plotTopArtists(artistsList):
+    print()
+
+
 
 def menu():
-    print("1) Top X songs listened to")
+    print("1) Top songs listened to")
     print("2) Top songs listened to by an artist")
-    print("3) Listening activity by month")
+    print("3) Most listened artists")
     print("4) Exit.")
 
 
@@ -219,21 +235,22 @@ def testmain():
     while(userChoice != 4):
         #print("entered here")
 
-        #Print top X songs
+        # Print top X songs
         if(userChoice == 1):
-            topXSongs = int(input("Range of top songs?") )
-            topSongsListenedTo(songHistory, topXSongs)
+            rangeTopSongs = int(input("Range of top songs listned to?") )
+            topSongsListenedTo(songHistory, rangeTopSongs)
+           
 
-
-        #Print top songs listened by artist
+        # Print top songs listened by artist
         if(userChoice == 2):
             artistName = int(input("Name of artist?") )
             songsByArtist(songHistory, artistName)
             
 
-        #Listening activity by month
+        # Most listened artists
         if(userChoice == 3):
-            print()
+            rangeTopArtists = int(input("Range of top artists listned to?") )
+            topSongsListenedTo(songHistory, rangeTopArtists)
 
         
         if(userChoice == 4):
@@ -254,9 +271,9 @@ def testmain():
 def main():
     songHistory = readSongHistory()
     #countTimesPlayed(songHistory)
-    #topSongsListenedTo(songHistory, 5)
+    topSongsListenedTo(songHistory, 5)
     #allSongsListened(songHistory)
-    songsByArtist(songHistory, 'Post Malone')
+    #songsByArtist(songHistory, 'Post Malone')
     #songsByArtist(songHistory, 'gfdgfd')
 
 if __name__ == '__main__':    
