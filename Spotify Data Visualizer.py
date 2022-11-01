@@ -242,23 +242,21 @@ def testmain():
            
 
         # Print top songs listened by artist
-        if(userChoice == 2):
+        elif(userChoice == 2):
             artistName = int(input("Name of artist?") )
             songsByArtist(songHistory, artistName)
             
 
         # Most listened artists
-        if(userChoice == 3):
+        elif(userChoice == 3):
             rangeTopArtists = int(input("Range of top artists listned to?") )
-            topSongsListenedTo(songHistory, rangeTopArtists)
+            topArtistsListenedTo(songHistory, rangeTopArtists)
 
         
-        if(userChoice == 4):
-            print()
+        elif(userChoice == 4):
+            print('Exit')
 
-        if(userChoice == 5):
-            break
-
+        # Bad input
         else:
             print("Invalid input, Try again.")
 
@@ -271,10 +269,11 @@ def testmain():
 def main():
     songHistory = readSongHistory()
     #countTimesPlayed(songHistory)
-    topSongsListenedTo(songHistory, 5)
+    #topSongsListenedTo(songHistory, 5)
     #allSongsListened(songHistory)
     #songsByArtist(songHistory, 'Post Malone')
     #songsByArtist(songHistory, 'gfdgfd')
+    topArtistsListenedTo(songHistory, 5)
 
 if __name__ == '__main__':    
     main()
