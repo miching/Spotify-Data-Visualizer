@@ -87,7 +87,8 @@ def topSongsListenedTo(songHistory, number):
 
 
 
-#Plot the top N of songs listened to
+# Plot the top N of songs listened to
+# topSongsList is a list of sorted tuples in the form (songTitle, timesPlayed)
 def plotTopSongsListened(topSongsList):
 
     plt.figure()
@@ -134,14 +135,51 @@ def songsByArtist(songHistory, artistName):
             songsByArtistList.append(songHistory[i])
 
 
-    #print(songsByArtistList)
-    plotSongsByArtist(songsByArtistList)
+
+    # Dict holding {songTitle: timesPlayed}
+    songTimesPlayed = countTimesPlayed(songsByArtistList)
+
+    # Sort by most played to least played songs
+    songTimesPlayed = sorted(songTimesPlayed.items(), key=lambda x: x[1], reverse=True)
+
+
+    #print(songTimesPlayed)
+    plotSongsByArtist(songTimesPlayed, artistName)
         
 
 
 # Plot songs created by artist
-def plotSongsByArtist(artistSongList):
-    pass
+# artistSongList is a list of tuples in the form (songTitle, timesPlayed)
+def plotSongsByArtist(artistSongList, artistName):
+
+    plt.figure()
+    plt.title("Your most listened songs by artist " + artistName)
+    plt.xlabel("Song(s)")
+    plt.ylabel("Times played")
+
+    # Hold song titles for x-Axis
+    xAxisTitles = []
+
+    # For each top song, plot with bar graph
+    for i in range(len(artistSongList)):
+        song = artistSongList[i]
+        songTitle = song[0]
+        songCount = song[1]
+
+        xAxisTitles.append(songTitle)
+
+        #X-cords is song title, Y-cords is the value/number of times played
+        plt.bar(songTitle, songCount)
+
+        #Show number of times played on graph
+        plt.text(songTitle, songCount, songCount ,color = 'blue', fontweight = 'bold')
+
+        
+    # x-Axis Labels    
+    plt.xticks(xAxisTitles)
+
+    #Display bar graph
+    plt.show()
 
 
 
