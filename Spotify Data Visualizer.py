@@ -290,8 +290,8 @@ def menu():
 
 
 
-def testmain():
-    print("Hello world")
+def main():
+    #print("Hello world")
 
     #Read all songs from files
     songHistory = readSongHistory()
@@ -316,7 +316,7 @@ def testmain():
 
         # Print top songs listened by artist
         elif(userChoice == 2):
-            artistName = int(input("Name of artist?") )
+            artistName = input("Name of artist?") 
             songsByArtist(songHistory, artistName)
             
 
@@ -324,6 +324,8 @@ def testmain():
         elif(userChoice == 3):
             rangeTopArtists = int(input("Range of top artists listned to?") )
             topArtistsListenedTo(songHistory, rangeTopArtists)
+            menu()
+            userChoice = int(input())
 
         
         elif(userChoice == 4):
@@ -339,7 +341,7 @@ def testmain():
     print("Program ended.")
 
 
-def main():
+def testMain():
     songHistory = readSongHistory()
     #countTimesPlayed(songHistory)
     #topSongsListenedTo(songHistory, 5)
@@ -348,7 +350,7 @@ def main():
     #songsByArtist(songHistory, 'Taylor Swift')
     #songsByArtist(songHistory, 'gfdgfd')
     #countArtistsPlayed(songHistory)
-    topArtistsListenedTo(songHistory, 5)
+    #topArtistsListenedTo(songHistory, 5)
 
 if __name__ == '__main__':    
     main()
