@@ -47,12 +47,16 @@ def allSongsListened(songHistory):
 
 
 
-# Count how much times a song has been played
+# Count how many times a song has been played
 # Returns a dict with key-value of {songTitle: timesPlayed}
 def countTimesPlayed(songHistory):
 
     songTimesPlayed = {}
+
+    # For each song in songHistory, get trackName
     allSongTitles = [song['trackName'] for song in songHistory]
+
+    # Make a set to discard repeat songTitles
     uniqueSongTitles = set(allSongTitles)
 
     for songTitles in uniqueSongTitles:
@@ -63,6 +67,27 @@ def countTimesPlayed(songHistory):
     return (songTimesPlayed)
 
     
+
+# Count how many times an artist has been listened to 
+# Returns a dict with key-value of {artistName: timesPlayed}
+def countArtistsPlayed(songHistory):
+
+    artistTimesPlayed = {}
+
+    # For each song in songHistory, get artistName
+    allArtists = [song['artistName'] for song in songHistory]
+
+    # Make a set to discard same artists
+    uniqueArtists = set(allArtists)
+
+    for artist in uniqueArtists:
+        artistTimesPlayed[artist] = allArtists.count(artist)
+
+
+    #print(artistTimesPlayed)
+    return (artistTimesPlayed)
+
+
 
 # Get top range of songs listened to
 def topSongsListenedTo(songHistory, topRange):
@@ -196,13 +221,63 @@ def plotSongsByArtist(artistSongList, artistName):
 
 # Get top range of artists listened to
 def topArtistsListenedTo(songHistory, topRange):
-    print()
+
+    # List to hold top N artists
+    topArtistsList = []
+
+    # Dict holding {artistName, timesPlayed}
+    artistTimesPlayed = countArtistsPlayed(songHistory)
+
+    # Sort by most played to least played artists into a list
+    artistTimesPlayed = sorted(artistTimesPlayed.items(), key=lambda x: x[1], reverse=True)
+
+    # Requested range of top songs is out of size
+    if(topRange > len(artistTimesPlayed)):
+        print('Range is beyond total artists listened')
+    
+    else:
+
+        # For the range of top artists, add to list
+        for i in range(topRange):
+            topArtistsList.append(artistTimesPlayed[i])
+
+
+        #print(artistTimesPlayed)
+        #print(topArtistsList)
+
+        plotTopArtists(topArtistsList)
 
 
 
 # Plot the top artists listened to
+# artistList is a list of tuples in the form (artistName, timesPlayed)
 def plotTopArtists(artistsList):
-    print()
+
+    plt.figure()
+    plt.title("Top " + str(len(artistsList)) + " artists listened to")
+    plt.xlabel("Artist(s)")
+    plt.ylabel("Times played")
+
+
+    # For each top song, plot with bar graph
+    for i in range(len(artistsList)):
+        artistInfo = artistsList[i]
+        artistName = artistInfo[0]
+        timesPlayed = artistInfo[1]
+
+        #X-cords is artist name, Y-cords is the number of times played
+        plt.bar(artistName, timesPlayed)
+
+        #Show number of times played on graph
+        plt.text(artistName, timesPlayed, timesPlayed ,color = 'blue', fontweight = 'bold', ha = CENTER)
+
+    
+    # To prevent clutter, do not plot song titles if more 15
+    if (len(artistsList) > 15):
+        plt.xticks([])
+
+    #Display bar graph
+    plt.show()
 
 
 
@@ -270,8 +345,9 @@ def main():
     #topSongsListenedTo(songHistory, 5)
     #allSongsListened(songHistory)
     #songsByArtist(songHistory, 'Post Malone')
-    songsByArtist(songHistory, 'Taylor Swift')
+    #songsByArtist(songHistory, 'Taylor Swift')
     #songsByArtist(songHistory, 'gfdgfd')
+    #countArtistsPlayed(songHistory)
     topArtistsListenedTo(songHistory, 5)
 
 if __name__ == '__main__':    
